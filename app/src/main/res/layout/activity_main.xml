@@ -95,7 +95,7 @@
             <EditText
                 android:id="@+id/searchInput"
                 android:layout_width="match_parent"
-                android:hint="اسم المدينة"
+                android:hint="City name"
                 android:backgroundTint="@android:color/white"
                 android:singleLine = "true"
                 android:textColor="@android:color/white"

@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import com.android.volley.Request
 import com.android.volley.toolbox.RequestFuture
 import com.android.volley.toolbox.StringRequest
@@ -27,6 +28,7 @@ class MainActivity : AppCompatActivity() {
 
         button.setOnClickListener{
             getWeather()
+            findViewById<EditText>(R.id.searchInput).text.clear()
         }
     }
 
@@ -39,18 +41,22 @@ class MainActivity : AppCompatActivity() {
                 val stringRequest = StringRequest(
                     Request.Method.POST , fullURL, { response ->
                     var results = gson.fromJson(response, weather::class.java)
-                    findViewById<TextView>(R.id.temp).text = results.main.temp.toString()
+                    findViewById<TextView>(R.id.temp).text = results.main.temp.toInt().toString() + " ºC"
 
                         findViewById<TextView>(R.id.address).text = results.name + ", " + results.sys.country
-                    findViewById<TextView>(R.id.temp_min).text = "Min Temp: " + results.main.temp_min+ " C"
-                        findViewById<TextView>(R.id.temp_max).text = "Min Max: " + results.main.temp_max+ " C"
+                    findViewById<TextView>(R.id.temp_min).text = "Min Temp: " + results.main.temp_min.toInt()+ " ºC"
+                        findViewById<TextView>(R.id.temp_max).text = "Min Max: " + results.main.temp_max.toInt()+ " ºC"
                         println(response.toString())
 
                     }, {
-                        println(it.message)
+                        Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show()
                     }
                 )
                 queue.add(stringRequest)
+            }
+            else{
+                Toast.makeText(this, "Type Something", Toast.LENGTH_SHORT).show()
+
             }
         }
         catch (err:Exception) {
